@@ -1,0 +1,12 @@
+stages:
+    - build
+
+build:
+  stage: build
+  script:
+    - export IMAGE_TAG=
+    - docker login -u "gitlab-ci-token" -p "" 
+    - docker build --pull -t ":" .
+    - docker push ":"
+  tags:
+    - docker
