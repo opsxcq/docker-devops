@@ -31,6 +31,10 @@ ENV TERRAFORM_VERSION=0.8.8
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin && \
 
+# Rclone
+RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
+    unzip rclone-current-linux-amd64.zip -d /usr/bin
+
 COPY main.sh /
 ENTRYPOINT ["/main.sh"]
 CMD ["default"]
