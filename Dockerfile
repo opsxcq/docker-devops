@@ -8,7 +8,6 @@ RUN apt-get update && \
     curl \
     wget \
     openssl \
-    ca-cacert \
     ca-certificates \
     python \
     python-pip \
