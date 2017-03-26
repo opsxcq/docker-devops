@@ -13,7 +13,7 @@ RUN apt-get update && \
     ca-certificates \
     python \
     python-pip \
-    openssh \
+    ssh \
     rsync \
     git \
     ansible \
