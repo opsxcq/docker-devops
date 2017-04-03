@@ -35,6 +35,10 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
     unzip rclone-current-linux-amd64.zip -d /usr/bin
 
+# AWS Command line
+RUN pip install --upgrade --user awscli
+
+
 COPY main.sh /
 ENTRYPOINT ["/main.sh"]
 CMD ["default"]
