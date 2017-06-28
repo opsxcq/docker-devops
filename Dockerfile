@@ -38,6 +38,7 @@ RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
 # AWS Command line
 RUN pip install --upgrade --user awscli
 
+ENV PATH="/root/.local/bin/aws:${PATH}"
 
 COPY main.sh /
 ENTRYPOINT ["/main.sh"]
