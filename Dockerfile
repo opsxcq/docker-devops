@@ -17,7 +17,7 @@ RUN apt-get update && \
     rsync \
     git \
     ansible \
-    groff-base \ # Dep for awscli
+    groff-base \ 
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
