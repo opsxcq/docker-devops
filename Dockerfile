@@ -38,7 +38,8 @@ RUN gem install terraforming
 
 # Rclone
 RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
-    unzip rclone-current-linux-amd64.zip -d /usr/bin
+    unzip rclone-current-linux-amd64.zip -d /usr/bin && \
+    rm *.zip
 
 # AWS Command line
 RUN pip install --upgrade --user awscli
