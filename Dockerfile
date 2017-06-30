@@ -18,7 +18,7 @@ RUN apt-get update && \
     git \
     ansible \
     groff-base \ 
-    ruby ruby-dev ruby-bundler \
+    ruby ruby-dev \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -31,7 +31,10 @@ RUN curl -fsSL https://get.docker.com/ | sh
 # Terraform
 ENV TERRAFORM_VERSION=0.8.8
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin 
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin && \
+    rm *.zip
+
+RUN gem install terraforming
 
 # Rclone
 RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
