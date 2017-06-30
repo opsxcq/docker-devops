@@ -18,6 +18,7 @@ RUN apt-get update && \
     git \
     ansible \
     groff-base \ 
+    ruby ruby-dev ruby-bundler \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

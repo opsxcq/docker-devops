@@ -1,6 +1,7 @@
 # DevOps toolbox
 
  * [x] Terraform
+     [ ] Terraforming (extract things from aws to terraform)
  * [x] Ansible
  * [x] Docker
  * [ ] Packer
