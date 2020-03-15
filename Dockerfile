@@ -101,7 +101,9 @@ RUN wget https://github.com/xenolf/lego/releases/download/v2.1.0/lego_v2.1.0_lin
     mv lego /bin/lego && \
     lego -v
 
-RUN useradd --system --uid 1000 -m --shell /usr/bash devops
+RUN useradd --system --uid 1000 -m --shell /usr/bash devops &&
+    mkdir -p /home/devops &&
+    chown devops /home/devops
 
 USER devops
 
