@@ -1,21 +1,11 @@
-# DevOps toolbox
+# Devops toolbox
 
- * [x] Terraform
-     [ ] Terraforming (extract things from aws to terraform)
- * [x] Ansible
- * [x] Docker
- * [ ] Packer
- * [ ] Capistrano
+A small set of tools used for devops daily routines
 
-# Utils
- 
- * Git
- * Rclone
- * Rsync
- * Ssh
-
-# Cloud providers
-
- * [x] AWS
- * [ ] Google
- * [ ] Digital Ocean
+ - AWS cli tools
+ - Gcloud cli tools
+ - Lego (for let's encrypt certificates)
+ - RClone to copy stuff around
+ - Git/Curl/Wget/Ssh
+ - Ansible
+ - Kubectl
