@@ -23,6 +23,8 @@ RUN apt-get update && \
     ssh \
     rsync \
     git \
+    pass \
+    gpg
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
