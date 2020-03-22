@@ -24,7 +24,17 @@ RUN apt-get update && \
     rsync \
     git \
     pass \
-    gpg
+    gpg \
+    qemu-utils \
+    sgabios \
+    seabios \
+    qemu-system\
+    qemu-efi\
+    qemu-kvm\
+    qemu \
+    python3-libvirt\
+    python3-libqcow\
+    libvirt0\
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -35,6 +45,11 @@ WORKDIR /tmp
 RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
     unzip rclone-current-linux-amd64.zip -d /usr/bin && \
     rm *.zip
+
+############################# Packer
+ARG PACKER_VERSION=1.5.4
+RUN wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
+  unzip packer_${PACKER_VERSION}_linux_amd64.zip
 
 ############################# Ansible
 RUN pip3 install --upgrade \
