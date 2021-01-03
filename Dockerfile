@@ -43,6 +43,7 @@ RUN apt-get update && \
     lsb-release \
     openssh-client \
     gnupg \
+    emacs \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -134,6 +135,8 @@ RUN useradd --system --uid 1000 -m --shell /usr/bash devops && \
 USER devops
 
 ENV PATH="/home/devops/.local/bin/:${PATH}"
+
+RUN git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
 COPY main.sh /
 
