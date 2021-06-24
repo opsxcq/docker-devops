@@ -44,11 +44,16 @@ RUN apt-get update && \
     openssh-client \
     gnupg \
     emacs \
+    netcat socat kafkacat\
+    tmux \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /tmp
+
+############################# Poetry
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
 ############################# RClone
 RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
@@ -106,7 +111,7 @@ RUN sh /tmp/ovftool -p /usr/local --console --eulas-agreed --required && \
 
 
 ############################# GCloud cli
-ARG CLOUD_SDK_VERSION=223.0.0
+ARG CLOUD_SDK_VERSION=346.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
 RUN pip3 install crcmod && \
