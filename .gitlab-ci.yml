@@ -1,4 +1,4 @@
-variabeles:
+variables:
   PUBLIC_IMAGE: 'strm/devops'
 
 include:
