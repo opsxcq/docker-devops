@@ -1,0 +1,63 @@
+#+Title: Devops toolbox
+
+A small set of tools used for DevOps daily routines.
+
+ - AWS cli tools
+ - Gcloud cli tools
+ - Lego (for let's encrypt certificates)
+ - RClone to copy stuff around
+ - Git/Curl/Wget/Ssh
+ - Ansible
+ - Kubectl
+
+This image is easily integrated on CI systems, and comes packed with all tools
+required to delivery artifacts for several kind of projects.
+
+* Slack Integration
+
+Slack integration is built-in, just run =slack= and configure your token with the
+variable =SLACK_CLI_TOKEN=.
+
+A simple message:
+
+** Simple Message
+#+begin_src bash
+slack chat send 'Hello world!' '#channel'
+#+end_src
+
+** A complete example of message
+
+#+begin_src bash
+slack chat send \
+  --actions '{"type": "button", "style": "primary", "text": "Pipeline Results", "url": "http://gitlab.com"}' \
+  --author 'author' \
+  --author-icon 'https://avatars.githubusercontent.com/u/16995025?s=400&u=9b4085c7575c0b9a67aa6bdae224948891277fd5&v=4' \
+  --author-link 'https://github.com/opsxcq' \
+  --channel '#crypto' \
+  --color good \
+  --fields '{"title": "Environment", "value": "snapshot", "short": true}' \
+  --footer 'footer' \
+  --footer-icon 'https://assets-cdn.github.com/images/modules/logos_page/Octocat.png' \
+  --image 'https://assets-cdn.github.com/images/modules/logos_page/Octocat.png' \
+  --pretext 'pretext' \
+  --text 'text' \
+  --time 123456789 \
+  --title 'title' \
+  --title-link 'https://github.com/opsxcq'
+#+end_src
+
+** Simple file upload
+#+begin_src bash
+slack file upload --file README.md --channels '#channel'
+#+end_src
+
+** Multiple uploads
+
+#+begin_src bash
+ls -al | slack file upload --channels '#channel'
+#+end_src
+
+** Create a Post
+#+begin_src bash
+slack file upload --file post.md --filetype post --title 'Post Title' --channels '#channel'
+#+end_src

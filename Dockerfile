@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 LABEL maintainer "opsxcq@strm.sh"
 
@@ -52,33 +52,52 @@ RUN apt-get update && \
 
 WORKDIR /tmp
 
-############################# Poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-
-############################# RClone
+###############
+#### RClone
+###############
 RUN wget http://downloads.rclone.org/rclone-current-linux-amd64.zip && \
     unzip rclone-current-linux-amd64.zip -d /usr/bin && \
     rm *.zip
 
-############################# Packer
+
+###############
+#### Packer
+###############
 ARG PACKER_VERSION=1.5.4
+
 RUN wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip && \
     unzip packer_${PACKER_VERSION}_linux_amd64.zip && \
     chmod +x packer && \
     mv packer /usr/bin && \
     rm *.zip
 
-############################# AWS CLI
+###############
+#### Terraform
+###############
+ARG TERRAFORM_VERSION=1.1.9
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    chmod +x terraform && \
+    mv terraform /usr/bin && \
+    rm *.zip
+
+###############
+#### AWS
+###############
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install && \
     rm *.zip
 
-############################ Yaml Query (Yq)
+###############
+#### File Formats
+###############
 RUN wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64 -O /usr/bin/yq &&\
     chmod +x /usr/bin/yq
 
-############################# Ansible
+###############
+#### Ansible
+###############
 RUN pip3 install --upgrade \
     setuptools \
     ansible \
@@ -96,46 +115,41 @@ RUN pip3 install --upgrade \
     botocore \
     diagrams
 
-############################# Lego
-
+###############
+#### Digital certificates
+###############
 RUN wget https://github.com/xenolf/lego/releases/download/v2.1.0/lego_v2.1.0_linux_amd64.tar.gz -O lego.tar.gz && \
     tar -zxvf lego.tar.gz && \
     chmod +x lego && \
     mv lego /bin/lego && \
     rm *.tar.gz
 
-########### VMWARE
+###############
+#### VMWare
+###############
 COPY VMware-ovftool-4.3.0-13981069-lin.x86_64.bundle /tmp/ovftool
 RUN sh /tmp/ovftool -p /usr/local --console --eulas-agreed --required && \
     rm /tmp/ovftool
 
+###############
+#### Kubernetes
+###############
+RUN curl -Lo kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x kubectl && \
+    mv ./kubectl /usr/local/bin/ && \
+    curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+    chmod +x skaffold && \
+    mv ./skaffold /usr/local/bin/
 
-############################# GCloud cli
-ARG CLOUD_SDK_VERSION=346.0.0
-ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-
-RUN pip3 install crcmod && \
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
-    echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+###############
+#### Finance & Machine learning
+###############
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    google-cloud-sdk=${CLOUD_SDK_VERSION}-0 \
-    kubectl \
-    kubectx  && \
-    gcloud config set core/disable_usage_reporting true && \
-    gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment github_docker_image && \
-    gcloud --version
-
-######################################################################
-
-RUN apt-get install -y \
     gfortran \
     libfreetype6-dev \
     libhdf5-dev \
-    vim \
     liblapack-dev \
     libopenblas-dev \
     libpng-dev && \
@@ -148,7 +162,15 @@ RUN apt-get install -y \
     apt clean && \
     rm -Rf /tmp/*
 
+###############
+#### Slack integration
+###############
+RUN curl https://raw.githubusercontent.com/rockymadden/slack-cli/46d22741e82d749180ae91512515132a9380ad57/src/slack > /usr/local/bin/slack && \
+    chmod +x /usr/local/bin/slack
+
+###############
 #### User setup
+###############
 RUN useradd --system --uid 1000 -m --shell /usr/bash devops && \
     mkdir -p /home/devops && \
     chown devops /home/devops

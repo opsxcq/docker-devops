@@ -1,2 +1,6 @@
+variabeles:
+  PUBLIC_IMAGE: 'strm/devops'
+
 include:
-  template: Docker.gitlab-ci.yml
+  - project: 'core/gitlabci-templates'
+    file: 'docker.yml'
